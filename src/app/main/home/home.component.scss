@@ -1,11 +1,29 @@
-h1{
-    text-align: center;
-    padding: 30px;
+h1 {
+  text-align: center;
+  padding: 30px;
 }
 
-.container-tabela{
-    padding: 10px;
-    table{
-        text-align: center;
+.container-tabela {
+  padding: 10px;
+  table {
+    text-align: center;
+    tr {
+      height: 5rem;
+      vertical-align: middle;
     }
+  }
 }
+
+form {
+  input {
+    height: 4rem;
+    margin: 10px 0;
+    font-size: 2rem;
+    text-align: center;
+  }
+}
+
+button{
+    width: 100%;
+    margin: 10px 0;
+  }

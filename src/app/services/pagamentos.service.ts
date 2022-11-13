@@ -9,7 +9,7 @@ import { take } from 'rxjs';
 })
 export class PagamentosService {
 
-  private readonly API = 'http://localhost:3000/pagamentos';
+  private readonly API = 'https://controle-gastos-pwa-default-rtdb.firebaseio.com/pagamentos/-NGmYEGSIC7pbjQ3CO_n.json';
 
 
   constructor(private http: HttpClient) { }
