@@ -19,12 +19,8 @@ export class HomeComponent implements OnInit {
   }
 
   getPagamentos() {
-    this._pagamentosServices.list().subscribe(response => {
-      this.pagamentos = response;
-      this.pagamentoTotal = this.pagamentos.reduce((a, b) => new Pagamento(a.valor + b.valor));
-    }, erro => {
-      alert("Algum erro aconteceu na hora de listar os pagamentos");
-    })
+    this.pagamentos = JSON.parse(localStorage.getItem("pagamentos") || '[]');
+    this.pagamentoTotal = this.pagamentos.reduce((a, b) => new Pagamento(a.valor + b.valor));
   }
 
   addPagamento() {
@@ -44,11 +40,7 @@ export class HomeComponent implements OnInit {
   }
 
   salvarPagamentos() {
-    this._pagamentosServices.edit(this.pagamentos).subscribe(success => {
-      alert("pagamento salvo");
-    }, error => {
-      alert("não foi possivel salvar o pagamento");
-    })
+    localStorage.setItem("pagamentos", JSON.stringify(this.pagamentos));
   }
 
   resetPagamentos() {
