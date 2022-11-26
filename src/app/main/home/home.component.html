@@ -1,47 +1,113 @@
 <h1>Controle de gastos</h1>
 <div class="container-tabela">
-    <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Data</th>
-            <th scope="col">Motivo</th>
-            <th scope="col">Valor</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let pagamento of pagamentos; let i = index" (click)="deletPagamento(i)">
-            <th scope="row">{{i + 1}}</th>
-            <td>{{pagamento.data}}</td>
-            <td>{{pagamento.motivo}}</td>
-            <td>{{pagamento.valor}}</td>
-          </tr>
-          <tr>
-            <th scope="row">{{pagamentos.length + 1}}</th>
-            <td>{{pagamentos[pagamentos.length - 1]?.data}}</td>
-            <td>Soma</td>
-            <td>{{pagamentoTotal.valor}}</td>
-          </tr>
-        </tbody>
-      </table>
-      <form (submit)="addPagamento()">
-        <div class="row">
-          <div class="col-md-12">
-            <input type="number" class="form-control" placeholder="Valor" [(ngModel)]="pagamentoTemp.valor" [ngModelOptions]="{standalone: true}">
-          </div>
-          <div class="col">
-            <input type="text" class="form-control" placeholder="Motivo" [(ngModel)]="pagamentoTemp.motivo" [ngModelOptions]="{standalone: true}">
-          </div>
-        </div>
-        <div style="text-align: center;">
-          <button type="submit" class="btn btn-success" style="font-size: 2rem;">Adicionar</button>
-        </div>
-      </form>
-      <div style="text-align: center;">
-        <button class="btn btn-primary" style="font-size: 2rem;" (click)="salvarPagamentos()">Salvar</button>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Data</th>
+        <th scope="col">Motivo</th>
+        <th scope="col">Valor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let pagamento of pagamentos; let i = index"
+        (click)="deletPagamento(i)"
+      >
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ pagamento.data }}</td>
+        <td>{{ pagamento.motivo }}</td>
+        <td>{{ pagamento.valor }}</td>
+      </tr>
+      <tr (click)="mostrarTotal()">
+        <th scope="row">{{ pagamentos.length + 1 }}</th>
+        <td>{{ pagamentos[pagamentos.length - 1]?.data }}</td>
+        <td>Soma</td>
+        <td>{{ pagamentoTotal.valor }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="table table-striped" *ngIf="mostrarPagamentoTotal">
+    <thead>
+      <tr>
+        <th>Valor máximo</th>
+        <th>Ainda tem</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          {{pagamentoMaximo}}
+        </td>
+        <td>
+          {{pagamentoMaximo - pagamentoTotal.valor}}
+        </td>
+        <td (click)="editarMaximo(template)">
+          EDIT
+        </td>
+    </tbody>
+  </table>
+  <form (submit)="addPagamento()">
+    <div class="row">
+      <div class="col-md-12">
+        <input
+          type="number"
+          class="form-control"
+          placeholder="Valor"
+          [(ngModel)]="pagamentoTemp.valor"
+          [ngModelOptions]="{ standalone: true }"
+        />
       </div>
-      <div style="text-align: center;">
-        <button class="btn btn-warning" style="font-size: 2rem;" (click)="resetPagamentos()">Resetar</button>
+      <div class="col">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Motivo"
+          [(ngModel)]="pagamentoTemp.motivo"
+          [ngModelOptions]="{ standalone: true }"
+        />
       </div>
-
+    </div>
+    <div style="text-align: center">
+      <button type="submit" class="btn btn-success" style="font-size: 2rem">
+        Adicionar
+      </button>
+    </div>
+  </form>
+  <div style="text-align: center" *ngIf="pedirSalvar">
+    <button
+      class="btn btn-primary"
+      style="font-size: 2rem"
+      (click)="salvarPagamentos()"
+    >
+      Salvar
+    </button>
+  </div>
+  <div style="text-align: center">
+    <button
+      class="btn btn-warning"
+      style="font-size: 2rem"
+      (click)="resetPagamentos()"
+    >
+      Resetar
+    </button>
+  </div>
 </div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Mudar valor máximo</h4>
+    <button
+      type="button"
+      class="btn-close close pull-right"
+      aria-label="Close"
+      (click)="modalRef?.hide()"
+    >
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <input type="number" [(ngModel)]="pagamentoMaximo">
+  </div>
+</ng-template>

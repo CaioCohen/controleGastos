@@ -5,6 +5,10 @@ h1 {
 
 .container-tabela {
   padding: 10px;
+  button{
+    width: 100%;
+    margin: 10px 0;
+  }
   table {
     text-align: center;
     tr {
@@ -23,7 +27,12 @@ form {
   }
 }
 
-button{
+.modal-body{
+  input{
     width: 100%;
-    margin: 10px 0;
+    height: 4rem;
+    text-align: center;
+    font-size: 3rem;
   }
+}
+
