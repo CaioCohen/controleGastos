@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Pagamento } from 'src/app/models/pagamentos';
+import { CsvService } from 'src/app/services/csv.service';
 import { PagamentosService } from 'src/app/services/pagamentos.service';
 
 @Component({
@@ -10,7 +11,9 @@ import { PagamentosService } from 'src/app/services/pagamentos.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private _pagamentosServices: PagamentosService, private modalService: BsModalService) { }
+  constructor(private _pagamentosServices: PagamentosService,
+     private modalService: BsModalService,
+     private _csvService: CsvService) { }
   pagamentos: Pagamento[] = [];
   pagamentoTotal: Pagamento = new Pagamento(0);
   pagamentoTemp: Pagamento = new Pagamento(0);
@@ -46,7 +49,7 @@ export class HomeComponent implements OnInit {
   }
 
   formatarData(data: Date) {
-    return `${data.getDate()}/${data.getMonth()}/${data.getFullYear()}`;
+    return `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()}`;
   }
 
   salvarPagamentos() {
@@ -76,6 +79,10 @@ export class HomeComponent implements OnInit {
       })
       
     }
+  }
+
+  baixarCSV(){
+    this._csvService.downloadCSV(this.pagamentos, "gastos_" + this.pagamentos[0].data.substring(3));
   }
 
 }
